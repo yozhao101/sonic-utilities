@@ -1327,17 +1327,14 @@ def pfc(ctx):
 #
 
 @pfc.command()
-@click.argument('interface_name', metavar='<interface_name>', required=True)
 @click.argument('status', type=click.Choice(['on', 'off']))
 @click.pass_context
-def asymmetric(ctx, interface_name, status):
+def asymmetric(ctx, status):
     """Set asymmetric PFC configuration."""
-    if get_interface_naming_mode() == "alias":
-        interface_name = interface_alias_to_name(interface_name)
-        if interface_name is None:
-            ctx.fail("'interface_name' is None!")
+    config_db = ctx.obj["config_db"]
+    interface = ctx.obj["interface_name"]
 
-    run_command("pfc config asymmetric {0} {1}".format(status, interface_name))
+    run_command("pfc config asymmetric {0} {1}".format(status, interface))
 
 #
 # 'platform' group ('config platform ...')
