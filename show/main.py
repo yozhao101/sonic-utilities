@@ -2157,7 +2157,7 @@ def features():
     config_db.connect()
     header = ['Feature', 'Status']
     body = []
-    status_data = config_db.get_table('FEATURES')
+    status_data = config_db.get_table('FEATURE')
     for key in status_data.keys():
         body.append([key, status_data[key]['status']])
     click.echo(tabulate(body, header))
