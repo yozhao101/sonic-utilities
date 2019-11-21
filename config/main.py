@@ -2183,7 +2183,7 @@ def feature_status(ctx,name,state):
         click.echo("Invalid feature name")
         return
     if not status_data:
-        click.echo("{} feature doesnt exist".format(name))
+        click.echo(" Feature '{}' doesn't exist".format(name))
         return
     if not state:
         click.echo("Empty state value")
