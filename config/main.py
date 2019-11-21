@@ -2167,13 +2167,12 @@ def delete(ctx):
     config_db.set_entry('SFLOW', 'global', sflow_tbl['global'])
 
 #
-# 'feature_status' command ('config feature name state')
+# 'feature' command ('config feature name state')
 # 
 @config.command('feature')
-@click.pass_context
 @click.argument('name', metavar='<feature-name>', required=True)
 @click.argument('state', metavar='<enabled/disabled>', default='disabled', required=True, type=click.Choice(["enabled", "disabled"]))
-def feature_status(ctx,name,state):
+def feature_status(name,state):
     """ Configure status of feature"""
     config_db = ConfigDBConnector()
     config_db.connect()
@@ -2186,7 +2185,7 @@ def feature_status(ctx,name,state):
         click.echo("{} feature doesnt exist".format(name))
         return
     if not state:
-        click.echo("Empty state value")
+        click.echo("Invalid feature state")
         return
 
     config_db.mod_entry('FEATURE', name,{'status': state})
