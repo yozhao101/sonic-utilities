@@ -2171,21 +2171,15 @@ def delete(ctx):
 # 
 @config.command('feature')
 @click.argument('name', metavar='<feature-name>', required=True)
-@click.argument('state', metavar='<enabled/disabled>', default='disabled', required=True, type=click.Choice(["enabled", "disabled"]))
+@click.argument('state', metavar='<enabled/disabled>', required=True, type=click.Choice(["enabled", "disabled"]))
 def feature_status(name,state):
     """ Configure status of feature"""
     config_db = ConfigDBConnector()
     config_db.connect()
     status_data = config_db.get_entry('FEATURE', name)
 
-    if not name:
-        click.echo("Invalid feature name")
-        return
     if not status_data:
         click.echo(" Feature '{}' doesn't exist".format(name))
-        return
-    if not state:
-        click.echo("Invalid feature state")
         return
 
     config_db.mod_entry('FEATURE', name,{'status': state})
