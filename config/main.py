@@ -2172,7 +2172,7 @@ def delete(ctx):
 @config.command('feature')
 @click.argument('name', metavar='<feature-name>', required=True)
 @click.argument('state', metavar='<feature-state>', required=True, type=click.Choice(["enabled", "disabled"]))
-def feature_status(name,state):
+def feature_status(name, state):
     """ Configure status of feature"""
     config_db = ConfigDBConnector()
     config_db.connect()
