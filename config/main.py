@@ -2182,7 +2182,7 @@ def feature_status(name, state):
         click.echo(" Feature '{}' doesn't exist".format(name))
         return
 
-    config_db.mod_entry('FEATURE', name,{'status': state})
+    config_db.mod_entry('FEATURE', name, {'status': state})
 
 if __name__ == '__main__':
     config()
