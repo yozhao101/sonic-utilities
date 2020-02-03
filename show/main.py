@@ -2810,15 +2810,20 @@ def features():
 # is enabled or disabled.
 
 @cli.command('autorestart')
-def features():
+@click.option('-c', '--container-name', required=False)
+def autorestart(container-name):
     """Show status of auto-restart features"""
     config_db = ConfigDBConnector()
     config_db.connect()
     header = ['ContainerName', 'Status']
     body = []
     container_feature_table = config_db.get_table('CONTAINER_FEATURE')
-    for container_name in container_feature_table.keys():
-        body.append([container_name, container_feature_table[container_name]['auto_restart']])
+    if container-name:
+        if container_feature_table and container_feature_table.has_key(container-name):
+            body.append([container-name, container_feature_table[container-name]['auto_restart']])
+    else:
+        for name in container_feature_table.keys():
+            body.append([name, container_feature_table[name]['auto_restart']])
     click.echo(tabulate(body, header))
 
 
