@@ -2806,7 +2806,7 @@ def features():
         body.append([key, status_data[key]['status']])
     click.echo(tabulate(body, header))
 
-# show whether the auto-restart feature for each container or a specific
+# show whether the auto-restart feature for containers or a specific container
 # is enabled or disabled.
 
 @cli.command('autorestart')
