@@ -2806,5 +2806,21 @@ def features():
         body.append([key, status_data[key]['status']])
     click.echo(tabulate(body, header))
 
+# show whether the auto-restart feature for each container
+# is enabled or disabled.
+
+@cli.command('autorestart')
+def features():
+    """Show status of auto-restart features"""
+    config_db = ConfigDBConnector()
+    config_db.connect()
+    header = ['ContainerName', 'Status']
+    body = []
+    container_feature_table = config_db.get_table('CONTAINER_FEATURE')
+    for container_name in container_feature_table.keys():
+        body.append([container_name, container_feature_table[container_name]['auto_restart']])
+    click.echo(tabulate(body, header))
+
+
 if __name__ == '__main__':
     cli()
