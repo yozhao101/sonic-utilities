@@ -2816,7 +2816,7 @@ def container()
 #
 # 'feature' group
 #
-@container.group('feature')
+@container.group(cls=AliasedGroup, default_if_no_args=False)
 def feature()
     """Show container feature"""
     pass
