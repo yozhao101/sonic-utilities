@@ -2830,7 +2830,7 @@ def feature():
 def autorestart(container_name):
     config_db = ConfigDBConnector()
     config_db.connect()
-    header = ['ContainerName', 'Status']
+    header = ['Container Name', 'Status']
     body = []
     container_feature_table = config_db.get_table('CONTAINER_FEATURE')
     if container_name:
