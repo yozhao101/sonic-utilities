@@ -2810,14 +2810,14 @@ def features():
 # 'container' group (show container ...)
 #
 @cli.group(name='container', invoke_without_command=False)
-def container()
+def container():
     """Show container"""
     pass
 #
 # 'feature' group (show container feature ...)
 #
 @container.group(name='feature', invoke_without_command=False)
-def feature()
+def feature():
     """Show container feature"""
     pass
 
@@ -2825,12 +2825,9 @@ def feature()
 # 'autorestart' subcommand (show container feature autorestart)
 #
 
-@feature.command('autorestart')
+@feature.command('autorestart', short_help="Show whether the auto-restart feature for contain(s) is enabled or disabled")
 @click.argument('container_name', required=False)
 def autorestart(container_name):
-    """show whether the auto-restart feature for containers or a specific container
-       is enabled or disabled.
-    """
 
     config_db = ConfigDBConnector()
     config_db.connect()
