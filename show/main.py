@@ -2814,7 +2814,7 @@ def container()
     """Show container feature"""
     pass
 
-@container.command('feature')
+@container.group('feature')
 def feature()
     pass
 
