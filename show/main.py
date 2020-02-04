@@ -2813,6 +2813,7 @@ def features():
 def container():
     """Show container"""
     pass
+
 #
 # 'feature' group (show container feature ...)
 #
@@ -2824,7 +2825,6 @@ def feature():
 #
 # 'autorestart' subcommand (show container feature autorestart)
 #
-
 @feature.command('autorestart', short_help="Show whether the auto-restart feature for container(s) is enabled or disabled")
 @click.argument('container_name', required=False)
 def autorestart(container_name):
