@@ -2807,27 +2807,31 @@ def features():
     click.echo(tabulate(body, header))
 
 #
-# 'container' group
+# 'container' group (show container ...)
 #
-@cli.group(cls=AliasedGroup, default_if_no_args=False)
+@cli.group(name='container', invoke_without_command=False)
 def container()
     """Show container"""
     pass
 #
-# 'feature' group
+# 'feature' group (show container feature ...)
 #
-@container.group(cls=AliasedGroup, default_if_no_args=False)
+@container.group(name='feature', invoke_without_command=False)
 def feature()
     """Show container feature"""
     pass
 
-# show whether the auto-restart feature for containers or a specific container
-# is enabled or disabled.
+#
+# 'autorestart' subcommand (show container feature autorestart)
+#
 
 @feature.command('autorestart')
 @click.argument('container_name', required=False)
 def autorestart(container_name):
-    """Show container feature autorestart"""
+    """show whether the auto-restart feature for containers or a specific container
+       is enabled or disabled.
+    """
+
     config_db = ConfigDBConnector()
     config_db.connect()
     header = ['ContainerName', 'Status']
