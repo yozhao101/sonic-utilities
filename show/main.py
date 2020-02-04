@@ -2845,6 +2845,5 @@ def autorestart(container_name):
             body.append([name, container_feature_table[name]['auto_restart']])
     click.echo(tabulate(body, header))
 
-
 if __name__ == '__main__':
     cli()
