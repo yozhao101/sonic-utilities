@@ -2828,7 +2828,6 @@ def feature():
 @feature.command('autorestart', short_help="Show whether the auto-restart feature for container(s) is enabled or disabled")
 @click.argument('container_name', required=False)
 def autorestart(container_name):
-
     config_db = ConfigDBConnector()
     config_db.connect()
     header = ['ContainerName', 'Status']
