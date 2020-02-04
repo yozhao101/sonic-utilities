@@ -2813,7 +2813,9 @@ def features():
 def container()
     """Show container"""
     pass
-
+#
+# 'feature' group
+#
 @container.group('feature')
 def feature()
     """Show container feature"""
@@ -2823,17 +2825,17 @@ def feature()
 # is enabled or disabled.
 
 @feature.command('autorestart')
-@click.option('-c', '--container-name', required=False)
-def autorestart(container-name):
+@click.argument('container_name', required=False)
+def autorestart(container_name):
     """Show container feature autorestart"""
     config_db = ConfigDBConnector()
     config_db.connect()
     header = ['ContainerName', 'Status']
     body = []
     container_feature_table = config_db.get_table('CONTAINER_FEATURE')
-    if container-name:
+    if container_name:
         if container_feature_table and container_feature_table.has_key(container-name):
-            body.append([container-name, container_feature_table[container-name]['auto_restart']])
+            body.append([container_name, container_feature_table[container_name]['auto_restart']])
     else:
         for name in container_feature_table.keys():
             body.append([name, container_feature_table[name]['auto_restart']])
