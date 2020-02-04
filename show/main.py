@@ -2806,13 +2806,25 @@ def features():
         body.append([key, status_data[key]['status']])
     click.echo(tabulate(body, header))
 
+#
+# 'container' group
+#
+@cli.group(cls=AliasedGroup, default_if_no_args=False)
+def container()
+    """Show container feature"""
+    pass
+
+@container.command('feature')
+def feature()
+    pass
+
 # show whether the auto-restart feature for containers or a specific container
 # is enabled or disabled.
 
-@cli.command('autorestart')
+@feature.command('autorestart')
 @click.option('-c', '--container-name', required=False)
 def autorestart(container-name):
-    """Show status of auto-restart features"""
+    """Show container feature autorestart"""
     config_db = ConfigDBConnector()
     config_db.connect()
     header = ['ContainerName', 'Status']
