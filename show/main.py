@@ -2825,7 +2825,7 @@ def feature():
 # 'autorestart' subcommand (show container feature autorestart)
 #
 
-@feature.command('autorestart', short_help="Show whether the auto-restart feature for contain(s) is enabled or disabled")
+@feature.command('autorestart', short_help="Show whether the auto-restart feature for container(s) is enabled or disabled")
 @click.argument('container_name', required=False)
 def autorestart(container_name):
 
