@@ -2834,7 +2834,7 @@ def autorestart(container_name):
     body = []
     container_feature_table = config_db.get_table('CONTAINER_FEATURE')
     if container_name:
-        if container_feature_table and container_feature_table.has_key(container-name):
+        if container_feature_table and container_feature_table.has_key(container_name):
             body.append([container_name, container_feature_table[container_name]['auto_restart']])
     else:
         for name in container_feature_table.keys():
