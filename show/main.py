@@ -2811,11 +2811,12 @@ def features():
 #
 @cli.group(cls=AliasedGroup, default_if_no_args=False)
 def container()
-    """Show container feature"""
+    """Show container"""
     pass
 
 @container.group('feature')
 def feature()
+    """Show container feature"""
     pass
 
 # show whether the auto-restart feature for containers or a specific container
