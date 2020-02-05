@@ -105,6 +105,9 @@
 * [Troubleshooting Commands](#troubleshooting-commands)
 * [Routing Stack](#routing-stack)
 * [Quagga BGP Show Commands](#Quagga-BGP-Show-Commands)
+* [Container Auto-restart](#container-autorestart)
+  * [Container Auto-restart show commands](#container-autorestart-show-commands)
+  * [Container Auto-restart config command](#container-autorestart-config-command)
 
 
 ## Document History
@@ -264,6 +267,7 @@ This command lists all the possible configuration commands at the top level.
     vlan                   VLAN-related configuration tasks
     warm_restart           warm_restart-related configuration tasks
     watermark              Configure watermark
+    container              Configure container
   ```
 Go Back To [Beginning of the document](#) or [Beginning of this section](#getting-help)
 
@@ -325,6 +329,7 @@ This command displays the full list of show commands available in the software; 
     vlan                  Show VLAN information
     warm_restart          Show warm restart configuration and state
     watermark             Show details of watermark
+    container             Show details of container
   ```
 
 The same syntax applies to all subgroups of `show` which themselves contain subcommands, and subcommands which accept options/arguments.
@@ -5603,84 +5608,76 @@ This command displays the routing policy that takes precedence over the other ro
     Action:
       Exit routemap
   ```
-
-## Warm Restart
-
-Besides device level warm reboot, SONiC also provides docker based warm restart. This feature is currently supported by following dockers: BGP, teamD,  and SWSS. A user can manage to restart a particular docker, with no interruption on packet forwarding and no effect on other services. This helps to reduce operational costs as well as development efforts. For example, to fix a bug in BGP routing stack, only the BGP docker image needs to be built, tested and upgraded.
-
-To achieve uninterrupted packet forwarding during the restarting stage and database reconciliation at the post restarting stage, warm restart enabled dockers with adjacency state machine facilitate standardized protocols. For example, a BGP restarting switch must have BGP "Graceful Restart" enabled, and its BGP neighbors must be "Graceful Restart Helper Capable", as specified in [IETF RFC4724](https://tools.ietf.org/html/rfc4724). 
-
-Before warm restart BGP docker, the following BGP commands should be enabled: 
-  ```
-  bgp graceful-restart
-  bgp graceful-restart preserve-fw-state
-  ```
-In current SONiC release, the above two commands are enabled by default.
-
-It should be aware that during a warm restart, certain BGP fast convergence feature and black hole avoidance feature should either be disabled or be set to a lower preference to avoid conflicts with BGP graceful restart.  
-
-For example, BGP BFD could be disabled via:
-
-  ```
-  no neighbor <A.B.C.D|X:X::X:X|WORD> bfd
-  ```
-  
-otherwise, the fast failure detection would cause packet drop during warm reboot.
-
-Another commonly deployed blackhole avoidance feature: dynamic route priority adjustment, could be disabled via:
-
-  ```
-  no bgp max-med on-peerup
-  ```
-
-to avoid large routes churn during BGP restart.
-
-
-### Warm Restart show commands
-
-**show warm_restart config**
-
-This command displays all the configuration related to warm_restart.
-
-- Usage:
-  ```
-  show warm_restart config
-  ```
-
-- Example:
-  ```
-  admin@sonic:~$ show warm_restart config
-  name    enable    timer_name        timer_duration
-  ------  --------  ----------------  ----------------
-  bgp     true      bgp_timer         100
-  teamd   false     teamsyncd_timer   300
-  swss    false     neighsyncd_timer  200
-  system  true      NULL              NULL
-  ```
-
-**show warm_restart state**
-
-This command displays the warm_restart state.
-
-- Usage:
-  ```
-  show warm_restart state
-  ```
-
-- Example:
-  ```
-  name          restore_count  state
-  ----------  ---------------  ----------
-  orchagent                 0
-  vlanmgrd                  0
-  bgp                       1  reconciled
-  portsyncd                 0
-  teammgrd                  1
-  neighsyncd                0
-  teamsyncd                 1
-  syncd                     0
-  natsyncd                  0
-  ```
-
-
 Go Back To [Beginning of the document](#) or [Beginning of this section](#quagga-bgp-show-commands)
+
+## Container Auto-restart
+Recently SONiC introduced a new feature about auto-restarting docker containers
+if one of critical processes accidently crashed or exited. This feature currently
+is applied to following docker containers: database, syncd, teamd, dhcp-relay,
+lldp, pmon, bgp, swss, telemetry, sflow, snmp and radv. The motivation behind
+this feature is that if one critical process in a docker container crashed, then
+the whole container will not work correctly and we can try to restart it to enter
+into the healthy state.
+
+### Container Auto-restart show commands
+
+**show container feature autorestart**
+
+This command will display the status of auto-restart feature for all containers.
+
+- Usage:
+  ```
+  show container feature autorestart
+  ```
+
+- Example:
+  ```
+  admin@sonic:~$ show container feature autorestart
+  Container Name    Status
+  --------------    --------
+  database          enabled
+  syncd             enabled
+  teamd             disabled
+  dhcp_relay        enabled
+  lldp              enabled
+  pmon              enabled
+  bgp               enabled
+  swss              disabled
+  telemetry         enabled
+  sflow             enabled
+  snmp              enabled
+  radv              disabled
+  ```
+
+**show container feature autorestart <container_name>**
+
+This command displays the status of auto-restart feature for a specific container.
+
+- Usage:
+  ```
+  show container feature autorestart pmon
+  ```
+
+- Example:
+  ```
+  admin@sonic:~$ show container feature autorestart database
+  Container Name    Status
+  --------------    --------
+  database          enabled
+
+### Container Auto-restart config command
+
+**config container feature autorestart <container_name> <status>**
+
+This command will configure the status of auto-restart feature for a specific container.
+
+- Usage:
+  ```
+  sudo config container feature autorestart database disabled
+  ```
+
+- Example:
+  ```
+  admin@sonic:~$ sudo config container feature autorestart database disabled
+ 
+Go Back To [Beginning of the document](#) or [Beginning of this section](#container-autorestart)
