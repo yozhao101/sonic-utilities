@@ -5664,7 +5664,7 @@ This command displays the status of auto-restart feature for a specific containe
   Container Name    Status
   --------------    --------
   database          enabled
-
+  ```
 ### Container Auto-restart config command
 
 **config container feature autorestart <container_name> <status>**
@@ -5679,5 +5679,5 @@ This command will configure the status of auto-restart feature for a specific co
 - Example:
   ```
   admin@sonic:~$ sudo config container feature autorestart database disabled
- 
+  ``` 
 Go Back To [Beginning of the document](#) or [Beginning of this section](#container-autorestart)
