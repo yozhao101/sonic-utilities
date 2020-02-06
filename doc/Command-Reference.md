@@ -105,7 +105,7 @@
 * [Troubleshooting Commands](#troubleshooting-commands)
 * [Routing Stack](#routing-stack)
 * [Quagga BGP Show Commands](#Quagga-BGP-Show-Commands)
-* [Container Auto-restart](#container-autorestart)
+* [Container Auto-restart](#container-autorestart-commands)
   * [Container Auto-restart show commands](#container-autorestart-show-commands)
   * [Container Auto-restart config command](#container-autorestart-config-command)
 
@@ -5680,4 +5680,4 @@ This command will configure the status of auto-restart feature for a specific co
   ```
   admin@sonic:~$ sudo config container feature autorestart database disabled
   ``` 
-Go Back To [Beginning of the document](#) or [Beginning of this section](#container-autorestart)
+Go Back To [Beginning of the document](#) or [Beginning of this section](#container-autorestart-commands)
