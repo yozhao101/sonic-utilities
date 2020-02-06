@@ -1754,14 +1754,6 @@ This command will display the status of auto-restart feature for containers.
 
 - Example:
   ```
-  admin@sonic:~$ show container
-  ```
-
-  ```
-  admin@sonic:~$ show container feature
-  ```
-
-  ```
   admin@sonic:~$ show container feature autorestart
   Container Name    Status
   --------------    --------
@@ -1794,22 +1786,6 @@ This command will configure the status of auto-restart feature for a specific co
   ```
 
 - Example:
-  ```
-  admin@sonic:~$ sudo config container
-  ```
-
-  ```
-  admin@sonic:~$ sudo config container feature
-  ```
-
-  ```
-  admin@sonic:~$ sudo config container feature autorestart
-  ```
-
- ```
-  admin@sonic:~$ sudo config container feature autorestart database
-  ```
-
   ```
   admin@sonic:~$ sudo config container feature autorestart database disabled
   ``` 
