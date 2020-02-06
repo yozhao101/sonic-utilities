@@ -1735,7 +1735,7 @@ This command is used to remove particular IPv4 or IPv6 BGP neighbor configuratio
 Go Back To [Beginning of the document](#) or [Beginning of this section](#bgp)
 
 ## Container Auto-restart
-SONiC iincludes a feature in which Docker containers can be automatically shut
+SONiC includes a feature in which Docker containers can be automatically shut
 down and restarted if one of critical processes running in the container exits
 unexpectedly. Restarting the entire container ensures that configureation is 
 reloaded and all processes in the container get restarted, thus increasing the
