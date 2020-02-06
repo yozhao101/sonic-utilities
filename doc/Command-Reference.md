@@ -1745,14 +1745,41 @@ it enter into the healthy state.
 
 **show container feature autorestart**
 
-This command will display the status of auto-restart feature for all containers.
+This command will display the status of auto-restart feature for containers.
 
 - Usage:
   ```
-  show container feature autorestart
+  show container feature autorestart [<container_name>]
   ```
 
 - Example:
+  ```
+  admin@sonic:~$ show container
+  Usage: show container [OPTIONS] COMMAND [ARGS]...
+
+  Show container
+
+  Options:
+    -?, -h, --help  Show this message and exit.
+
+  Commands:
+    feature  Show container feature
+  ```
+
+  ```
+  admin@sonic:~$ show container feature
+  Usage: show container feature [OPTIONS] COMMAND [ARGS]...
+
+  Show container feature
+
+  Options:
+    -?, -h, --help  Show this message and exit.
+
+  Commands:
+    autorestart  Show whether the auto-restart feature for container(s) is
+                 enabled or disabled
+  ```
+
   ```
   admin@sonic:~$ show container feature autorestart
   Container Name    Status
@@ -1771,13 +1798,12 @@ This command will display the status of auto-restart feature for all containers.
   radv              disabled
   ```
 
-**show container feature autorestart <container_name>**
-
-This command displays the status of auto-restart feature for a specific container.
+Optionally, you can specify a container name in order to display the auto-restart
+feature status for that container only.
 
 - Usage:
   ```
-  show container feature autorestart pmon
+  show container feature autorestart database
   ```
 
 - Example:
@@ -1789,16 +1815,59 @@ This command displays the status of auto-restart feature for a specific containe
   ```
 ### Container Auto-restart config command
 
-**config container feature autorestart <container_name> <status>**
+**config container feature autorestart <container_name> <autorestart_status>**
 
 This command will configure the status of auto-restart feature for a specific container.
 
 - Usage:
   ```
-  sudo config container feature autorestart database disabled
+  sudo config container feature autorestart container_name autorestart_status
   ```
 
 - Example:
+  ```
+  admin@sonic:~$ sudo config container
+  Usage: config container [OPTIONS] COMMAND [ARGS]...
+
+    Modify configuration of container
+
+  Options:
+    -?, -h, --help  Show this message and exit.
+
+  Commands:
+    feature  Modify configuration of container features
+  ```
+
+  ```
+  admin@sonic:~$ sudo config container feature
+  Usage: config container feature [OPTIONS] COMMAND [ARGS]...
+
+    Modify configuration of container features
+
+  Options:
+    -?, -h, --help  Show this message and exit.
+
+  Commands:
+    autorestart  Configure the status of autorestart feature for specific
+                 container
+  ```
+
+  ```
+  admin@sonic:~$ sudo config container feature autorestart
+  Usage: config container feature autorestart [OPTIONS] <container_name>
+                                              <autorestart_status>
+
+  Error: Missing argument "container_name".
+  ```
+
+ ```
+  admin@sonic:~$ sudo config container feature database
+  Usage: config container feature autorestart [OPTIONS] <container_name>
+                                              <autorestart_status>
+
+  Error: Missing argument "autorestart_status".  Choose from enabled, disabled.
+  ```
+
   ```
   admin@sonic:~$ sudo config container feature autorestart database disabled
   ``` 
