@@ -31,6 +31,9 @@
 * [BGP](#bgp)
   * [BGP show commands](#bgp-show-commands)
   * [BGP config commands](#bgp-config-commands)
+* [Container Auto-restart](#container-autorestart-commands)
+  * [Container Auto-restart show commands](#container-autorestart-show-commands)
+  * [Container Auto-restart config command](#container-autorestart-config-command)
 * [DHCP Relay](#dhcp-relay)
   * [DHCP Relay config commands](#dhcp-relay-config-commands)
 * [Drop Counters](#drop-counters)
@@ -105,10 +108,6 @@
 * [Troubleshooting Commands](#troubleshooting-commands)
 * [Routing Stack](#routing-stack)
 * [Quagga BGP Show Commands](#Quagga-BGP-Show-Commands)
-* [Container Auto-restart](#container-autorestart-commands)
-  * [Container Auto-restart show commands](#container-autorestart-show-commands)
-  * [Container Auto-restart config command](#container-autorestart-config-command)
-
 
 ## Document History
 
@@ -267,7 +266,7 @@ This command lists all the possible configuration commands at the top level.
     vlan                   VLAN-related configuration tasks
     warm_restart           warm_restart-related configuration tasks
     watermark              Configure watermark
-    container              Configure container
+    container              Modify configuration of containers
   ```
 Go Back To [Beginning of the document](#) or [Beginning of this section](#getting-help)
 
@@ -1734,6 +1733,76 @@ This command is used to remove particular IPv4 or IPv6 BGP neighbor configuratio
   ```
 
 Go Back To [Beginning of the document](#) or [Beginning of this section](#bgp)
+
+## Container Auto-restart
+SONiC introduced a feature about auto-restarting docker containers
+if one of critical processes accidently crashed or exited. The motivation behind
+this feature is that if one critical process in a docker container crashed, then
+the whole container will not work correctly and we can try to restart to make 
+it enter into the healthy state.
+
+### Container Auto-restart show commands
+
+**show container feature autorestart**
+
+This command will display the status of auto-restart feature for all containers.
+
+- Usage:
+  ```
+  show container feature autorestart
+  ```
+
+- Example:
+  ```
+  admin@sonic:~$ show container feature autorestart
+  Container Name    Status
+  --------------    --------
+  database          enabled
+  syncd             enabled
+  teamd             disabled
+  dhcp_relay        enabled
+  lldp              enabled
+  pmon              enabled
+  bgp               enabled
+  swss              disabled
+  telemetry         enabled
+  sflow             enabled
+  snmp              enabled
+  radv              disabled
+  ```
+
+**show container feature autorestart <container_name>**
+
+This command displays the status of auto-restart feature for a specific container.
+
+- Usage:
+  ```
+  show container feature autorestart pmon
+  ```
+
+- Example:
+  ```
+  admin@sonic:~$ show container feature autorestart database
+  Container Name    Status
+  --------------    --------
+  database          enabled
+  ```
+### Container Auto-restart config command
+
+**config container feature autorestart <container_name> <status>**
+
+This command will configure the status of auto-restart feature for a specific container.
+
+- Usage:
+  ```
+  sudo config container feature autorestart database disabled
+  ```
+
+- Example:
+  ```
+  admin@sonic:~$ sudo config container feature autorestart database disabled
+  ``` 
+Go Back To [Beginning of the document](#) or [Beginning of this section](#container-autorestart-commands)
 
 ## DHCP Relay
 
@@ -5609,75 +5678,3 @@ This command displays the routing policy that takes precedence over the other ro
       Exit routemap
   ```
 Go Back To [Beginning of the document](#) or [Beginning of this section](#quagga-bgp-show-commands)
-
-## Container Auto-restart
-Recently SONiC introduced a new feature about auto-restarting docker containers
-if one of critical processes accidently crashed or exited. This feature currently
-is applied to following docker containers: database, syncd, teamd, dhcp-relay,
-lldp, pmon, bgp, swss, telemetry, sflow, snmp and radv. The motivation behind
-this feature is that if one critical process in a docker container crashed, then
-the whole container will not work correctly and we can try to restart it to enter
-into the healthy state.
-
-### Container Auto-restart show commands
-
-**show container feature autorestart**
-
-This command will display the status of auto-restart feature for all containers.
-
-- Usage:
-  ```
-  show container feature autorestart
-  ```
-
-- Example:
-  ```
-  admin@sonic:~$ show container feature autorestart
-  Container Name    Status
-  --------------    --------
-  database          enabled
-  syncd             enabled
-  teamd             disabled
-  dhcp_relay        enabled
-  lldp              enabled
-  pmon              enabled
-  bgp               enabled
-  swss              disabled
-  telemetry         enabled
-  sflow             enabled
-  snmp              enabled
-  radv              disabled
-  ```
-
-**show container feature autorestart <container_name>**
-
-This command displays the status of auto-restart feature for a specific container.
-
-- Usage:
-  ```
-  show container feature autorestart pmon
-  ```
-
-- Example:
-  ```
-  admin@sonic:~$ show container feature autorestart database
-  Container Name    Status
-  --------------    --------
-  database          enabled
-  ```
-### Container Auto-restart config command
-
-**config container feature autorestart <container_name> <status>**
-
-This command will configure the status of auto-restart feature for a specific container.
-
-- Usage:
-  ```
-  sudo config container feature autorestart database disabled
-  ```
-
-- Example:
-  ```
-  admin@sonic:~$ sudo config container feature autorestart database disabled
-  ``` 
-Go Back To [Beginning of the document](#) or [Beginning of this section](#container-autorestart-commands)
