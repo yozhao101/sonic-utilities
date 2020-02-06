@@ -2471,7 +2471,7 @@ def feature_status(name, state):
 #
 # 'container' group ('config container ...')
 #
-@config.group(name='container', invoke_with_command=False)
+@config.group(name='container', invoke_without_command=False)
 def container():
     """Modify configuration of containers"""
     pass
@@ -2479,7 +2479,7 @@ def container():
 #
 # 'feature' group ('config container feature ...')
 #
-@container.group(name='feature', invoke_with_command=False)
+@container.group(name='feature', invoke_without_command=False)
 def feature():
     """Modify configuration of container features"""
     pass
