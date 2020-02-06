@@ -1735,11 +1735,11 @@ This command is used to remove particular IPv4 or IPv6 BGP neighbor configuratio
 Go Back To [Beginning of the document](#) or [Beginning of this section](#bgp)
 
 ## Container Auto-restart
-SONiC introduced a feature about auto-restarting docker containers
-if one of critical processes accidently crashed or exited. The motivation behind
-this feature is that if one critical process in a docker container crashed, then
-the whole container will not work correctly and we can try to restart to make 
-it enter into the healthy state.
+SONiC iincludes a feature in which Docker containers can be automatically shut
+down and restarted if one of critical processes running in the container exits
+unexpectedly. Restarting the entire container ensures that configureation is 
+reloaded and all processes in the container get restarted, thus increasing the
+likelihood of entering a healthy state.
 
 ### Container Auto-restart show commands
 
@@ -1755,29 +1755,10 @@ This command will display the status of auto-restart feature for containers.
 - Example:
   ```
   admin@sonic:~$ show container
-  Usage: show container [OPTIONS] COMMAND [ARGS]...
-
-  Show container
-
-  Options:
-    -?, -h, --help  Show this message and exit.
-
-  Commands:
-    feature  Show container feature
   ```
 
   ```
   admin@sonic:~$ show container feature
-  Usage: show container feature [OPTIONS] COMMAND [ARGS]...
-
-  Show container feature
-
-  Options:
-    -?, -h, --help  Show this message and exit.
-
-  Commands:
-    autorestart  Show whether the auto-restart feature for container(s) is
-                 enabled or disabled
   ```
 
   ```
@@ -1801,18 +1782,6 @@ This command will display the status of auto-restart feature for containers.
 Optionally, you can specify a container name in order to display the auto-restart
 feature status for that container only.
 
-- Usage:
-  ```
-  show container feature autorestart database
-  ```
-
-- Example:
-  ```
-  admin@sonic:~$ show container feature autorestart database
-  Container Name    Status
-  --------------    --------
-  database          enabled
-  ```
 ### Container Auto-restart config command
 
 **config container feature autorestart <container_name> <autorestart_status>**
@@ -1821,51 +1790,24 @@ This command will configure the status of auto-restart feature for a specific co
 
 - Usage:
   ```
-  sudo config container feature autorestart container_name autorestart_status
+  sudo config container feature autorestart <container_name> (enabled | disabled)
   ```
 
 - Example:
   ```
   admin@sonic:~$ sudo config container
-  Usage: config container [OPTIONS] COMMAND [ARGS]...
-
-    Modify configuration of container
-
-  Options:
-    -?, -h, --help  Show this message and exit.
-
-  Commands:
-    feature  Modify configuration of container features
   ```
 
   ```
   admin@sonic:~$ sudo config container feature
-  Usage: config container feature [OPTIONS] COMMAND [ARGS]...
-
-    Modify configuration of container features
-
-  Options:
-    -?, -h, --help  Show this message and exit.
-
-  Commands:
-    autorestart  Configure the status of autorestart feature for specific
-                 container
   ```
 
   ```
   admin@sonic:~$ sudo config container feature autorestart
-  Usage: config container feature autorestart [OPTIONS] <container_name>
-                                              <autorestart_status>
-
-  Error: Missing argument "container_name".
   ```
 
  ```
-  admin@sonic:~$ sudo config container feature database
-  Usage: config container feature autorestart [OPTIONS] <container_name>
-                                              <autorestart_status>
-
-  Error: Missing argument "autorestart_status".  Choose from enabled, disabled.
+  admin@sonic:~$ sudo config container feature autorestart database
   ```
 
   ```
