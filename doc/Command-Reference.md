@@ -1791,7 +1791,7 @@ This command will configure the status of auto-restart feature for a specific co
   admin@sonic:~$ sudo config container feature autorestart database disabled
   ``` 
 
-Go Back To [Beginning of the document](#) or [Beginning of this section](#container-autorestart)
+Go Back To [Beginning of the document](#) or [Beginning of this section](#container-auto-restart)
 
 ## DHCP Relay
 
