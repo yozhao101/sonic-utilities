@@ -1737,7 +1737,7 @@ Go Back To [Beginning of the document](#) or [Beginning of this section](#bgp)
 ## Container Auto-restart
 SONiC includes a feature in which Docker containers can be automatically shut
 down and restarted if one of critical processes running in the container exits
-unexpectedly. Restarting the entire container ensures that configureation is 
+unexpectedly. Restarting the entire container ensures that configuration is 
 reloaded and all processes in the container get restarted, thus increasing the
 likelihood of entering a healthy state.
 
