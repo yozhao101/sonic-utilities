@@ -511,7 +511,7 @@ def save(filename):
 def load(filename, yes):
     """Import a previous saved config DB dump file."""
     if not yes:
-        click.confirm('Load config from the files %s' % filename, abort=True)
+        click.confirm('Load config from the file %s?' % filename, abort=True)
     command = "{} -j {} --write-to-db".format(SONIC_CFGGEN_PATH, filename)
     run_command(command, display_cmd=True)
 
