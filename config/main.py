@@ -506,21 +506,23 @@ def save(filename):
 @config.command()
 @click.option('-y', '--yes', is_flag=True)
 @click.argument('filename', default='/etc/sonic/config_db.json', type=click.Path(exists=True))
-def load(filename, yes):
-    """Import a previous saved config DB dump file."""
+@click.argument('init_cfg_file', default='/etc/sonic/init_cfg.json', type=click.Path(exists=True))
+def load(filename, init_cfg_file, yes):
+    """Import previous saved config DB dump file and init_cfg.json."""
     if not yes:
-        click.confirm('Load config from the file %s?' % filename, abort=True)
-    command = "{} -j {} --write-to-db".format(SONIC_CFGGEN_PATH, filename)
+        click.confirm('Load config from the files %s and %s?' % (filename, init_cfg_file), abort=True)
+    command = "{} -j {} -j {} --write-to-db".format(SONIC_CFGGEN_PATH, filename, init_cfg_file)
     run_command(command, display_cmd=True)
 
 @config.command()
 @click.option('-y', '--yes', is_flag=True)
 @click.option('-l', '--load-sysinfo', is_flag=True, help='load system default information (mac, portmap etc) first.')
 @click.argument('filename', default='/etc/sonic/config_db.json', type=click.Path(exists=True))
-def reload(filename, yes, load_sysinfo):
-    """Clear current configuration and import a previous saved config DB dump file."""
+@click.argument('init_cfg_file', default='/etc/sonic/init_cfg.json', type=click.Path(exists=True))
+def reload(filename, init_cfg_file, yes, load_sysinfo):
+    """Clear current configuration and import previous saved config DB dump file and init_cfg.json."""
     if not yes:
-        click.confirm('Clear current config and reload config from the file %s?' % filename, abort=True)
+        click.confirm('Clear current config and reload config from the files %s and %s?' % (filename, init_cfg_file), abort=True)
 
     log_info("'reload' executing...")
 
@@ -544,7 +546,7 @@ def reload(filename, yes, load_sysinfo):
         command = "{} -H -k {} --write-to-db".format(SONIC_CFGGEN_PATH, cfg_hwsku)
         run_command(command, display_cmd=True)
 
-    command = "{} -j {} --write-to-db".format(SONIC_CFGGEN_PATH, filename)
+    command = "{} -j {} -j {} --write-to-db".format(SONIC_CFGGEN_PATH, filename, init_cfg_file)
     run_command(command, display_cmd=True)
     client.set(config_db.INIT_INDICATOR, 1)
 
