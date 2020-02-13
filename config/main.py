@@ -547,7 +547,7 @@ def reload(filename, yes, load_sysinfo):
         run_command(command, display_cmd=True)
 
     if os.path.isfile('/etc/sonic/init_cfg.json'):
-        command = "{} -j {} -j {} --write-to-db".format(SONIC_CFGGEN_PATH, filename, INIT_CFG_FILE)
+        command = "{} -j {} -j {} --write-to-db".format(SONIC_CFGGEN_PATH, INIT_CFG_FILE, filename)
     else:
         command = "{} -j {} --write-to-db".format(SONIC_CFGGEN_PATH, filename)
 
