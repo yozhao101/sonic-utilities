@@ -27,6 +27,8 @@ SONIC_CFGGEN_PATH = '/usr/local/bin/sonic-cfggen'
 SYSLOG_IDENTIFIER = "config"
 VLAN_SUB_INTERFACE_SEPARATOR = '.'
 
+INIT_CFG_FILE = '/etc/sonic/init_cfg.json'
+
 # ========================== Syslog wrappers ==========================
 
 def log_debug(msg):
@@ -506,20 +508,18 @@ def save(filename):
 @config.command()
 @click.option('-y', '--yes', is_flag=True)
 @click.argument('filename', default='/etc/sonic/config_db.json', type=click.Path(exists=True))
-@click.argument('init_cfg_file', default='/etc/sonic/init_cfg.json', type=click.Path(exists=True))
-def load(filename, init_cfg_file, yes):
-    """Import previous saved config DB dump file and init_cfg.json."""
+def load(filename, yes):
+    """Import a previous saved config DB dump file."""
     if not yes:
-        click.confirm('Load config from the files %s and %s?' % (filename, init_cfg_file), abort=True)
-    command = "{} -j {} -j {} --write-to-db".format(SONIC_CFGGEN_PATH, filename, init_cfg_file)
+        click.confirm('Load config from the files %s' % filename, abort=True)
+    command = "{} -j {} --write-to-db".format(SONIC_CFGGEN_PATH, filename)
     run_command(command, display_cmd=True)
 
 @config.command()
 @click.option('-y', '--yes', is_flag=True)
 @click.option('-l', '--load-sysinfo', is_flag=True, help='load system default information (mac, portmap etc) first.')
 @click.argument('filename', default='/etc/sonic/config_db.json', type=click.Path(exists=True))
-@click.argument('init_cfg_file', default='/etc/sonic/init_cfg.json', type=click.Path(exists=True))
-def reload(filename, init_cfg_file, yes, load_sysinfo):
+def reload(filename, yes, load_sysinfo):
     """Clear current configuration and import previous saved config DB dump file and init_cfg.json."""
     if not yes:
         click.confirm('Clear current config and reload config from the files %s and %s?' % (filename, init_cfg_file), abort=True)
@@ -546,7 +546,10 @@ def reload(filename, init_cfg_file, yes, load_sysinfo):
         command = "{} -H -k {} --write-to-db".format(SONIC_CFGGEN_PATH, cfg_hwsku)
         run_command(command, display_cmd=True)
 
-    command = "{} -j {} -j {} --write-to-db".format(SONIC_CFGGEN_PATH, filename, init_cfg_file)
+    if os.path.isfile('/etc/sonic/init_cfg.json'):
+        command = "{} -j {} -j {} --write-to-db".format(SONIC_CFGGEN_PATH, filename, INIT_CFG_FILE)
+
+    command = "{} -j {} --write-to-db".format(SONIC_CFGGEN_PATH, filename)
     run_command(command, display_cmd=True)
     client.set(config_db.INIT_INDICATOR, 1)
 
