@@ -522,7 +522,7 @@ def load(filename, yes):
 def reload(filename, yes, load_sysinfo):
     """Clear current configuration and import a previous saved config DB dump file."""
     if not yes:
-        click.confirm('Clear current config and reload config from the file?' % filename, abort=True)
+        click.confirm('Clear current config and reload config from the file %s?' % filename, abort=True)
 
     log_info("'reload' executing...")
 
