@@ -520,9 +520,9 @@ def load(filename, yes):
 @click.option('-l', '--load-sysinfo', is_flag=True, help='load system default information (mac, portmap etc) first.')
 @click.argument('filename', default='/etc/sonic/config_db.json', type=click.Path(exists=True))
 def reload(filename, yes, load_sysinfo):
-    """Clear current configuration and import previous saved config DB dump file and init_cfg.json."""
+    """Clear current configuration and import a previous saved config DB dump file."""
     if not yes:
-        click.confirm('Clear current config and reload config from the files %s and %s?' % (filename, init_cfg_file), abort=True)
+        click.confirm('Clear current config and reload config from the file?' % filename, abort=True)
 
     log_info("'reload' executing...")
 
@@ -548,8 +548,9 @@ def reload(filename, yes, load_sysinfo):
 
     if os.path.isfile('/etc/sonic/init_cfg.json'):
         command = "{} -j {} -j {} --write-to-db".format(SONIC_CFGGEN_PATH, filename, INIT_CFG_FILE)
+    else:
+        command = "{} -j {} --write-to-db".format(SONIC_CFGGEN_PATH, filename)
 
-    command = "{} -j {} --write-to-db".format(SONIC_CFGGEN_PATH, filename)
     run_command(command, display_cmd=True)
     client.set(config_db.INIT_INDICATOR, 1)
 
