@@ -743,6 +743,10 @@ def _stop_services(config_db):
         if service in services_to_stop:
             services_to_stop.remove(service)
 
+    # Unmonitor the script of 'container_checker' before stopping services
+    click.echo("Unmonitoring the container_checker ...")
+    clicommon.run_command("sudo monit unmonitor container_checker")
+
     execute_systemctl(services_to_stop, SYSTEMCTL_ACTION_STOP)
 
 
@@ -811,6 +815,10 @@ def _restart_services(config_db):
         services_to_restart.remove('pmon')
 
     execute_systemctl(services_to_restart, SYSTEMCTL_ACTION_RESTART)
+
+    # Monitor the script of 'container_checker' after restarting services
+    click.echo("Monitoring the container_checker ...")
+    clicommon.run_command("sudo monit monitor container_checker")
 
     # Reload Monit configuration to pick up new hostname in case it changed
     click.echo("Reloading Monit configuration ...")
