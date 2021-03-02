@@ -670,7 +670,7 @@ def _get_disabled_services_list(config_db):
 
 def _stop_services():
    # Unmonitor the script of 'container_checker' before stopping services
-    click.echo("Disabling the Monit ...")
+    click.echo("Disabling container monitoring ...")
     clicommon.run_command("sudo monit unmonitor container_checker")
 
     click.echo("Stopping SONiC target ...")
@@ -693,7 +693,7 @@ def _restart_services():
     clicommon.run_command("sudo systemctl restart sonic.target")
 
     # Monitor the script of 'container_checker' after restarting services
-    click.echo("Enabling the Monit ...")
+    click.echo("Enabling container monitoring ...")
     clicommon.run_command("sudo monit monitor container_checker")
 
     # Reload Monit configuration to pick up new hostname in case it changed
