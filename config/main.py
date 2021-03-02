@@ -699,7 +699,6 @@ def _restart_services():
     clicommon.run_command("sudo monit monitor container_checker")
 
 
-
 def interface_is_in_vlan(vlan_member_table, interface_name):
     """ Check if an interface is in a vlan """
     for _, intf in vlan_member_table:
