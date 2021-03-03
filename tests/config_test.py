@@ -51,7 +51,7 @@ class TestLoadMinigraph(object):
             traceback.print_tb(result.exc_info[2])
             assert result.exit_code == 0
             assert "\n".join([l.rstrip() for l in result.output.split('\n')]) == load_minigraph_command_output
-            assert mock_run_command.call_count == 7
+            assert mock_run_command.call_count == 9
 
     @classmethod
     def teardown_class(cls):
