@@ -669,7 +669,6 @@ def _get_disabled_services_list(config_db):
 
 
 def _stop_services():
-
     proc_instance = subprocess.Popen("sudo monit status", shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     cmd_stdout, cmd_stderr = proc_instance.communicate()
     if proc_instance.returncode == 0:
